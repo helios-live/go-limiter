@@ -1,6 +1,7 @@
 package limiter // include go.ideatocode.tech/limiter
 
 import (
+	"errors"
 	"sync"
 )
 
@@ -35,13 +36,15 @@ func (sl *Limiter) Add() bool {
 }
 
 // Done removes a connection from the pool
-func (sl *Limiter) Done() {
+func (sl *Limiter) Done() error {
 	sl.m.Lock()
 	defer sl.m.Unlock()
 	sl.current--
 	if sl.current < 0 {
 		sl.current = 0
+		return errors.New("limiter: done would go subzero")
 	}
+	return nil
 }
 
 // Current returns the current count
