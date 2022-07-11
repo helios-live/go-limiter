@@ -39,6 +39,12 @@ func (sl *Limiter) Add() bool {
 func (sl *Limiter) Done() error {
 	sl.m.Lock()
 	defer sl.m.Unlock()
+
+	// always return nil if connections are not counted
+	if sl.max == nil {
+		return nil
+	}
+
 	sl.current--
 	if sl.current < 0 {
 		sl.current = 0
