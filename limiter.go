@@ -1,4 +1,4 @@
-package limiter // include go.ideatocode.tech/limiter
+package limiter
 
 import (
 	"errors"
